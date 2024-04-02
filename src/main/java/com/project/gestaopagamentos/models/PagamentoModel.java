@@ -31,7 +31,7 @@ public class PagamentoModel implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "destino_id")
-    private DestinoModel destino; //TODO criar a entity pra isso
+    private DestinoModel destino;
 
     public UUID getId() {
         return id;
