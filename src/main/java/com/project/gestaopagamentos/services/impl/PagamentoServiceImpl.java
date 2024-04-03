@@ -59,5 +59,11 @@ public class PagamentoServiceImpl implements PagamentoService {
         return pagamentoModel;
     }
 
+    @Override
+    public void deleteById(UUID id) throws ResourceNotFoundException {
+        var pagamentoModel = getById(id);
+        pagamentoRepository.deleteById(id);
+    }
+
 
 }

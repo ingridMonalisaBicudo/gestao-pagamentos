@@ -54,4 +54,14 @@ public class PagamentoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @DeleteMapping("/pagamentos/{id}")
+    public ResponseEntity<Object> patchUpdatePagamento(@PathVariable (value="id") UUID id) throws ResourceNotFoundException {
+        try {
+            pagamentoService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Pagamento deleted successfuly");
+        } catch (ResourceNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }
