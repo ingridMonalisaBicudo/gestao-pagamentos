@@ -1,14 +1,14 @@
 package com.project.gestaopagamentos.enums;
 
-public enum Recorrencia {
+public enum Frequencia {
     SEMANAL("Semanal"),
     MENSAL("Mensal"),
     TRIMESTRAL("Trimestral"),
     SEMESTRAL("Semestral");
 
-    private String recorrencia;
+    private String frequencia;
 
-    private Recorrencia(String recorrencia) {
-        this.recorrencia = recorrencia;
+    private Frequencia(String frequencia) {
+        this.frequencia = frequencia;
     }
 }
