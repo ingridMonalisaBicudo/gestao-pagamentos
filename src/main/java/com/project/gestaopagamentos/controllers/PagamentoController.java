@@ -2,6 +2,7 @@ package com.project.gestaopagamentos.controllers;
 
 import com.project.gestaopagamentos.dtos.PagamentoRecordDto;
 import com.project.gestaopagamentos.enums.Status;
+import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
 import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.services.PagamentoService;
@@ -22,8 +23,14 @@ public class PagamentoController {
     PagamentoService pagamentoService;
 
     @PostMapping("/pagamentos")
-    public ResponseEntity<PagamentoModel> savePagamento(@RequestBody @Valid PagamentoRecordDto pagamentoRecordDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoService.incluir(pagamentoRecordDto));
+    public ResponseEntity<Object> createPagamento(@RequestBody @Valid PagamentoRecordDto pagamentoRecordDto) throws IOException {
+           try{
+               var pagamento = pagamentoService.create(pagamentoRecordDto);
+               return ResponseEntity.status(HttpStatus.CREATED).body(pagamento);
+           } catch (IOException e){
+               return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+           }
+
     }
 
     @GetMapping("/pagamentos")
