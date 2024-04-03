@@ -8,8 +8,6 @@ import com.project.gestaopagamentos.repositories.PagamentoRepository;
 import com.project.gestaopagamentos.services.PagamentoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,4 +49,15 @@ public class PagamentoServiceImpl implements PagamentoService {
 
         return pagamentoModel;
     }
+
+    @Override
+    public PagamentoModel patchUpdatePagamento(UUID id, PagamentoRecordDto pagamentoRecordDto) throws ResourceNotFoundException {
+        var pagamentoModel = getById(id);
+        BeanUtils.copyProperties(pagamentoRecordDto, pagamentoModel);
+        pagamentoRepository.save(pagamentoModel);
+
+        return pagamentoModel;
+    }
+
+
 }

@@ -16,4 +16,6 @@ public interface PagamentoService {
 
     PagamentoModel getById(UUID id) throws ResourceNotFoundException;
     PagamentoModel updatePagamento(UUID id, PagamentoRecordDto pagamentoRecordDto) throws ResourceNotFoundException;
+
+    PagamentoModel patchUpdatePagamento(UUID id, PagamentoRecordDto pagamentoRecordDto) throws ResourceNotFoundException;
 }
