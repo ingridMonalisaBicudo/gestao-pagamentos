@@ -2,6 +2,7 @@ package com.project.gestaopagamentos.controllers;
 
 import com.project.gestaopagamentos.dtos.PagamentoRecordDto;
 import com.project.gestaopagamentos.enums.Status;
+import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
 import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.services.PagamentoService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class PagamentoController {
@@ -31,5 +33,15 @@ public class PagamentoController {
     @GetMapping("/pagamentos/{status}")
     public ResponseEntity<List<PagamentoModel>> getByStatus(@PathVariable Status status){
         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.getByStatus(status));
+    }
+
+    @PutMapping("/pagamentos/{id}")
+    public ResponseEntity<Object> updatePagamento(@PathVariable (value="id") UUID id, @RequestBody @Valid PagamentoRecordDto pagamentoRecordDto) throws ResourceNotFoundException {
+        try {
+            var pagamentoModel = pagamentoService.updatePagamento(id, pagamentoRecordDto);
+            return ResponseEntity.status(HttpStatus.OK).body(pagamentoModel);
+        } catch (ResourceNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

@@ -2,31 +2,18 @@ package com.project.gestaopagamentos.services;
 
 import com.project.gestaopagamentos.dtos.PagamentoRecordDto;
 import com.project.gestaopagamentos.enums.Status;
+import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
 import com.project.gestaopagamentos.models.PagamentoModel;
-import com.project.gestaopagamentos.repositories.PagamentoRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.UUID;
 
-@Service
-public class PagamentoService implements PagamentoServiceInterface{
+public interface PagamentoService {
+    PagamentoModel incluir(PagamentoRecordDto pagamentoRecordDto);
+    List<PagamentoModel> getAll();
+    List<PagamentoModel> getByStatus(Status status);
 
-    @Autowired
-    private PagamentoRepository pagamentoRepository;
-    @Override
-    public PagamentoModel incluir(PagamentoRecordDto pagamentoRecordDto) { //TODO adicionar logs
-        var pagamentoModel = new PagamentoModel();
-        BeanUtils.copyProperties(pagamentoRecordDto, pagamentoModel);
-        return pagamentoRepository.save(pagamentoModel);
-    }
-    @Override
-    public List<PagamentoModel> getAll() {
-        return pagamentoRepository.findAll();
-    }
-    @Override
-    public List<PagamentoModel> getByStatus(Status status){ //TODO Tratar caso de status invalido
-        return pagamentoRepository.findByStatus(status);
-    }
+    PagamentoModel getById(UUID id) throws ResourceNotFoundException;
+    PagamentoModel updatePagamento(UUID id, PagamentoRecordDto pagamentoRecordDto) throws ResourceNotFoundException;
 }
