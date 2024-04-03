@@ -7,6 +7,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PagamentoService implements PagamentoServiceInterface{
 
@@ -17,5 +20,9 @@ public class PagamentoService implements PagamentoServiceInterface{
         var pagamentoModel = new PagamentoModel();
         BeanUtils.copyProperties(pagamentoRecordDto, pagamentoModel);
         return pagamentoRepository.save(pagamentoModel);
+    }
+    @Override
+    public List<PagamentoModel> getAll() {
+        return pagamentoRepository.findAll();
     }
 }

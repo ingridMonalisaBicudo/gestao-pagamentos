@@ -14,9 +14,8 @@ import java.util.UUID;
 @Table(name = "TB_PAGAMENTOS")
 public class PagamentoModel implements Serializable {
     private static final long serialVersionUID = 1L;
-
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -27,11 +26,10 @@ public class PagamentoModel implements Serializable {
     private BigDecimal valor;
 
     private String descricao;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "recorrencia_id")
     private RecorrenciaModel recorrencia;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "destino_id")
     private DestinoModel destino;
 
