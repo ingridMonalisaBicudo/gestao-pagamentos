@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,11 +53,15 @@ public class PagamentoController {
             return ResponseEntity.status(HttpStatus.OK).body(pagamentoModel);
         } catch (ResourceNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @DeleteMapping("/pagamentos/{id}")
-    public ResponseEntity<Object> patchUpdatePagamento(@PathVariable (value="id") UUID id) throws ResourceNotFoundException {
+    public ResponseEntity<Object> patchUpdatePagamento(@PathVariable (value="id") UUID id) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException {
         try {
             pagamentoService.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("Pagamento deleted successfuly");
