@@ -1,9 +1,9 @@
 package com.project.gestaopagamentos.models;
 
-import com.project.gestaopagamentos.enums.Recorrencia;
 import com.project.gestaopagamentos.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -21,13 +21,15 @@ public class PagamentoModel implements Serializable {
     @Enumerated(EnumType.STRING)
     @NotNull
     private Status status;
+    @CreationTimestamp
     private LocalDateTime inclusao;
     private LocalDateTime pagamento;
     private BigDecimal valor;
 
     private String descricao;
-    @Enumerated(EnumType.STRING)
-    private Recorrencia recorrencia;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "recorrencia_id")
+    private RecorrenciaModel recorrencia;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "destino_id")
@@ -81,11 +83,11 @@ public class PagamentoModel implements Serializable {
         this.descricao = descricao;
     }
 
-    public Recorrencia getRecorrencia() {
+    public RecorrenciaModel getRecorrencia() {
         return recorrencia;
     }
 
-    public void setRecorrencia(Recorrencia recorrencia) {
+    public void setRecorrencia(RecorrenciaModel recorrencia) {
         this.recorrencia = recorrencia;
     }
 
