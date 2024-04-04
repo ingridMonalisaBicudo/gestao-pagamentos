@@ -87,9 +87,10 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
-    public void deleteById(UUID id) throws ResourceNotFoundException { // TODO delete vai apenas mudar o registro para CANCELADO
+    public void deleteById(UUID id) throws ResourceNotFoundException { // TODO Colocar uma mensagem avisando se já estiver cancelado
         var pagamentoModel = getById(id);
-        pagamentoRepository.deleteById(id);
+        pagamentoModel.setStatus(Status.CANCELADO);
+        pagamentoRepository.save(pagamentoModel);
     }
 
     private static boolean validateDate (Status status, LocalDate dateToValidate){ //TODO colocar isso no PUT e no PATCH
