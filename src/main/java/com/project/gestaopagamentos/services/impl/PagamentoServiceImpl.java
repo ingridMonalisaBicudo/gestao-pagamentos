@@ -83,9 +83,9 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
-    public PagamentoModel patchUpdatePagamento(UUID id, PagamentoRecordDto pagamentoRecordDto) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException { //TODO tratar as duas 2 outras exceções
+    public PagamentoModel patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException { //TODO tratar as duas 2 outras exceções
         var pagamentoModel = getById(id);
-        beanUtilsBean.copyProperties(pagamentoRecordDto, pagamentoModel);
+        beanUtilsBean.copyProperties(request, pagamentoModel);
         pagamentoRepository.save(pagamentoModel);
 
         return pagamentoModel;

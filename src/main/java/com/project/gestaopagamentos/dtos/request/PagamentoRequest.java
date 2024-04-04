@@ -19,7 +19,6 @@ import java.util.UUID;
 public class PagamentoRequest {
 
     private Status status;
-    private LocalDateTime inclusao;
     private LocalDateTime pagamento;
     private BigDecimal valor;
 
