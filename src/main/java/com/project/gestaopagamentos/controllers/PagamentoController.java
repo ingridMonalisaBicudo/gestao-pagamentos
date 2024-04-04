@@ -1,6 +1,7 @@
 package com.project.gestaopagamentos.controllers;
 
 import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
+import com.project.gestaopagamentos.dtos.response.PagamentoResponse;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
@@ -34,12 +35,12 @@ public class PagamentoController {
     }
 
     @GetMapping("/pagamentos")
-    public ResponseEntity<List<PagamentoModel>> getAllPagamentos(){
+    public ResponseEntity<List<PagamentoResponse>> getAllPagamentos(){
         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.getAll());
     }
 
     @GetMapping("/pagamentos/{status}")
-    public ResponseEntity<List<PagamentoModel>> getByStatus(@PathVariable Status status){
+    public ResponseEntity<List<PagamentoResponse>> getByStatus(@PathVariable Status status){
         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.getByStatus(status));
     }
 

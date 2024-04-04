@@ -1,6 +1,7 @@
 package com.project.gestaopagamentos.services.impl;
 
 import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
+import com.project.gestaopagamentos.dtos.response.PagamentoResponse;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.enums.TipoChavePix;
 import com.project.gestaopagamentos.exceptions.IOException;
@@ -38,7 +39,7 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     private static final Logger log = LoggerFactory.getLogger(PagamentoServiceImpl.class);
     @Override
-    public PagamentoModel create(PagamentoRequest pagamentoRequest) throws IOException { //TODO adicionar logs
+    public PagamentoResponse create(PagamentoRequest pagamentoRequest) throws IOException { //TODO adicionar logs
         var pagamentoModel = new PagamentoModel();
         var isValidDate = validateDate(pagamentoRequest.getStatus(), pagamentoRequest.getPagamento().toLocalDate());
 
@@ -54,40 +55,43 @@ public class PagamentoServiceImpl implements PagamentoService {
         pagamentoModel = mapper.toPagamento(pagamentoRequest);
         pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));//TODO Colocar no mapper
 
-        return pagamentoRepository.save(pagamentoModel);
+        var pagamentoCreated = pagamentoRepository.save(pagamentoModel);
+        return mapper.toPagamentoResponse(pagamentoCreated);
     }
     @Override
-    public List<PagamentoModel> getAll() {
-        return pagamentoRepository.findAll();
+    public List<PagamentoResponse> getAll() {
+        var pagamentoList = pagamentoRepository.findAll();
+        return mapper.toPagamentoResponseList(pagamentoList);
     }
     @Override
-    public List<PagamentoModel> getByStatus(Status status){ //TODO Tratar caso de status invalido
-        return pagamentoRepository.findByStatus(status);
+    public List<PagamentoResponse> getByStatus(Status status){ //TODO Tratar caso de status invalido
+        var pagamentoList = pagamentoRepository.findByStatus(status);
+        return mapper.toPagamentoResponseList(pagamentoList);
     }
 
     @Override
     public PagamentoModel getById(UUID id) throws ResourceNotFoundException {
-
-        return pagamentoRepository.findById(id).orElseThrow(() ->
+        var pagamento = pagamentoRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Payment Not Found"));
+        return pagamento;
     }
 
     @Override
-    public PagamentoModel updatePagamento(UUID id , PagamentoRequest request) throws ResourceNotFoundException {
-        var pagamentoModel = getById(id);
+    public PagamentoResponse updatePagamento(UUID id , PagamentoRequest request) throws ResourceNotFoundException {
+        PagamentoModel pagamentoModel = getById(id);
         BeanUtils.copyProperties(request, pagamentoModel);
-        pagamentoRepository.save(pagamentoModel);
+        var pagamentoUpdated = pagamentoRepository.save(pagamentoModel);
 
-        return pagamentoModel;
+        return mapper.toPagamentoResponse(pagamentoModel);
     }
 
     @Override
-    public PagamentoModel patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException { //TODO tratar as duas 2 outras exceções
+    public PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException { //TODO tratar as duas 2 outras exceções
         var pagamentoModel = getById(id);
         beanUtilsBean.copyProperties(request, pagamentoModel);
         pagamentoRepository.save(pagamentoModel);
 
-        return pagamentoModel;
+        return mapper.toPagamentoResponse(pagamentoModel);
     }
 
     @Override

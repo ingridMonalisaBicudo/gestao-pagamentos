@@ -1,6 +1,7 @@
 package com.project.gestaopagamentos.services;
 
 import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
+import com.project.gestaopagamentos.dtos.response.PagamentoResponse;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
@@ -11,11 +12,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PagamentoService {
-    PagamentoModel create(PagamentoRequest pagamentoRequest) throws IOException;
-    List<PagamentoModel> getAll();
-    List<PagamentoModel> getByStatus(Status status);
+    PagamentoResponse create(PagamentoRequest pagamentoRequest) throws IOException;
+    List<PagamentoResponse> getAll();
+    List<PagamentoResponse> getByStatus(Status status);
     PagamentoModel getById(UUID id) throws ResourceNotFoundException;
-    PagamentoModel updatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException;
-    PagamentoModel patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException;
+    PagamentoResponse updatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException;
+    PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException;
     void deleteById(UUID id) throws ResourceNotFoundException;
 }
