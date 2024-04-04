@@ -74,9 +74,9 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
-    public PagamentoModel updatePagamento(UUID id , PagamentoRecordDto pagamentoRecordDto) throws ResourceNotFoundException {
+    public PagamentoModel updatePagamento(UUID id , PagamentoRequest request) throws ResourceNotFoundException {
         var pagamentoModel = getById(id);
-        BeanUtils.copyProperties(pagamentoRecordDto, pagamentoModel);
+        BeanUtils.copyProperties(request, pagamentoModel);
         pagamentoRepository.save(pagamentoModel);
 
         return pagamentoModel;
