@@ -2,31 +2,27 @@ package com.project.gestaopagamentos.services.impl;
 
 import com.project.gestaopagamentos.dtos.PagamentoRecordDto;
 import com.project.gestaopagamentos.enums.Status;
+import com.project.gestaopagamentos.enums.TipoChavePix;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
 import com.project.gestaopagamentos.helper.NullAwareBeanUtilsBean;
-import com.project.gestaopagamentos.models.DestinoModel;
 import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.repositories.PagamentoRepository;
 import com.project.gestaopagamentos.services.PagamentoService;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static com.project.gestaopagamentos.utils.PixKeyValidator.isValidEmail;
+import static com.project.gestaopagamentos.utils.PixKeyValidator.isValidPhone;
 
 @Service
 public class PagamentoServiceImpl implements PagamentoService {
@@ -52,6 +48,8 @@ public class PagamentoServiceImpl implements PagamentoService {
         }
 
         BeanUtils.copyProperties(pagamentoRecordDto, pagamentoModel);
+        pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
+
         return pagamentoRepository.save(pagamentoModel);
     }
     @Override
@@ -106,5 +104,16 @@ public class PagamentoServiceImpl implements PagamentoService {
 
         return true;
     }
+    private TipoChavePix getTypePix(String pixKey){ //TODO Colocar no mapper
+
+            if(isValidEmail(pixKey)){
+                return TipoChavePix.EMAIL;
+            } else if(isValidPhone(pixKey)){
+                return TipoChavePix.TELEFONE;
+            } else {
+                return TipoChavePix.ALEATORIA;
+            }
+    }
+
 
 }
