@@ -80,6 +80,7 @@ public class PagamentoServiceImpl implements PagamentoService {
     public PagamentoResponse updatePagamento(UUID id , PagamentoRequest request) throws ResourceNotFoundException {
         PagamentoModel pagamentoModel = getById(id);
         BeanUtils.copyProperties(request, pagamentoModel);
+        pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
         var pagamentoUpdated = pagamentoRepository.save(pagamentoModel);
 
         return mapper.toPagamentoResponse(pagamentoModel);
@@ -89,6 +90,7 @@ public class PagamentoServiceImpl implements PagamentoService {
     public PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException { //TODO tratar as duas 2 outras exceções
         var pagamentoModel = getById(id);
         beanUtilsBean.copyProperties(request, pagamentoModel);
+        pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
         pagamentoRepository.save(pagamentoModel);
 
         return mapper.toPagamentoResponse(pagamentoModel);
