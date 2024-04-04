@@ -3,6 +3,8 @@ package com.project.gestaopagamentos.models;
 import com.project.gestaopagamentos.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
@@ -10,6 +12,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "TB_PAGAMENTOS")
 public class PagamentoModel implements Serializable {
@@ -33,67 +37,4 @@ public class PagamentoModel implements Serializable {
     @JoinColumn(name = "destino_id")
     private DestinoModel destino;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getInclusao() {
-        return inclusao;
-    }
-
-    public void setInclusao(LocalDateTime inclusao) {
-        this.inclusao = inclusao;
-    }
-
-    public LocalDateTime getPagamento() {
-        return pagamento;
-    }
-
-    public void setPagamento(LocalDateTime pagamento) {
-        this.pagamento = pagamento;
-    }
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public RecorrenciaModel getRecorrencia() {
-        return recorrencia;
-    }
-
-    public void setRecorrencia(RecorrenciaModel recorrencia) {
-        this.recorrencia = recorrencia;
-    }
-
-    public DestinoModel getDestino() {
-        return destino;
-    }
-
-    public void setDestino(DestinoModel destino) {
-        this.destino = destino;
-    }
 }

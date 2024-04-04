@@ -2,11 +2,15 @@ package com.project.gestaopagamentos.models;
 
 import com.project.gestaopagamentos.enums.Frequencia;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "TB_RECORRENCIA")
 public class RecorrenciaModel implements Serializable {
@@ -17,27 +21,4 @@ public class RecorrenciaModel implements Serializable {
     @Enumerated(EnumType.STRING)
     private Frequencia frequencia;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getDataFinal() {
-        return dataFinal;
-    }
-
-    public void setDataFinal(LocalDateTime dataFinal) {
-        this.dataFinal = dataFinal;
-    }
-
-    public Frequencia getFrequencia() {
-        return frequencia;
-    }
-
-    public void setFrequencia(Frequencia frequencia) {
-        this.frequencia = frequencia;
-    }
 }
