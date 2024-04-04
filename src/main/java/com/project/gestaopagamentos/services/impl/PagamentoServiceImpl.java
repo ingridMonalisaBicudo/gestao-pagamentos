@@ -1,11 +1,13 @@
 package com.project.gestaopagamentos.services.impl;
 
 import com.project.gestaopagamentos.dtos.PagamentoRecordDto;
+import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.enums.TipoChavePix;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
 import com.project.gestaopagamentos.helper.NullAwareBeanUtilsBean;
+import com.project.gestaopagamentos.mappers.PagamentoMapper;
 import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.repositories.PagamentoRepository;
 import com.project.gestaopagamentos.services.PagamentoService;
@@ -32,22 +34,26 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Autowired
     private NullAwareBeanUtilsBean beanUtilsBean;
 
+    @Autowired
+    private PagamentoMapper mapper;
+
     private static final Logger log = LoggerFactory.getLogger(PagamentoServiceImpl.class);
     @Override
-    public PagamentoModel create(PagamentoRecordDto pagamentoRecordDto) throws IOException { //TODO adicionar logs
+    public PagamentoModel create(PagamentoRequest pagamentoRequest) throws IOException { //TODO adicionar logs
         var pagamentoModel = new PagamentoModel();
-        var isValidDate = validateDate(pagamentoRecordDto.status(), pagamentoRecordDto.pagamento().toLocalDate());
+        var isValidDate = validateDate(pagamentoRequest.getStatus(), pagamentoRequest.getPagamento().toLocalDate());
 
         if(!isValidDate){ //TODO mudar nome para data Pagamento e o tipo para LocalDate
             throw new IOException("Payment date is not valid");
         }
 
-        var pagamentoList = pagamentoRepository.findByValorAndPagamentoAndDestino(pagamentoRecordDto.valor(), pagamentoRecordDto.pagamento(), pagamentoRecordDto.destino().getChavePix());
+        var pagamentoList = pagamentoRepository.findByValorAndPagamentoAndDestino(pagamentoRequest.getValor(), pagamentoRequest.getPagamento(), pagamentoRequest.getDestino().getChavePix());
         if(!pagamentoList.isEmpty()){
             log.warn("There is already a payment with the same amount, payment date and pix key");
         }
 
-        BeanUtils.copyProperties(pagamentoRecordDto, pagamentoModel);
+        //BeanUtils.copyProperties(pagamentoRequest, pagamentoModel);
+        pagamentoModel = mapper.toPagamento(pagamentoRequest);
         pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
 
         return pagamentoRepository.save(pagamentoModel);
