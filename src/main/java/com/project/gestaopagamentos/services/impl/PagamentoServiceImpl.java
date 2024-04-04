@@ -52,9 +52,8 @@ public class PagamentoServiceImpl implements PagamentoService {
             log.warn("There is already a payment with the same amount, payment date and pix key");
         }
 
-        //BeanUtils.copyProperties(pagamentoRequest, pagamentoModel);
         pagamentoModel = mapper.toPagamento(pagamentoRequest);
-        pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
+        pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));//TODO Colocar no mapper
 
         return pagamentoRepository.save(pagamentoModel);
     }
