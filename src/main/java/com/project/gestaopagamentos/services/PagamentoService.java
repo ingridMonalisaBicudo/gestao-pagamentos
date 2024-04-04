@@ -1,12 +1,10 @@
 package com.project.gestaopagamentos.services;
 
-import com.project.gestaopagamentos.dtos.PagamentoRecordDto;
 import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
 import com.project.gestaopagamentos.models.PagamentoModel;
-import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;

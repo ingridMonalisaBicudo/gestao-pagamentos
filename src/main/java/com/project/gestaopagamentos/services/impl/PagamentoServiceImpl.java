@@ -1,6 +1,5 @@
 package com.project.gestaopagamentos.services.impl;
 
-import com.project.gestaopagamentos.dtos.PagamentoRecordDto;
 import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.enums.TipoChavePix;
