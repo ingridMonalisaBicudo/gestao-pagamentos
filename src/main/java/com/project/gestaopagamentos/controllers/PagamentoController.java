@@ -45,10 +45,12 @@ public class PagamentoController {
     }
 
     @PutMapping("/pagamentos/{id}")
-    public ResponseEntity<Object> updatePagamento(@PathVariable (value="id") UUID id, @RequestBody @Valid PagamentoRequest request) throws ResourceNotFoundException {
+    public ResponseEntity<Object> updatePagamento(@PathVariable (value="id") UUID id, @RequestBody @Valid PagamentoRequest request) {
         try {
             var pagamentoModel = pagamentoService.updatePagamento(id, request);
             return ResponseEntity.status(HttpStatus.OK).body(pagamentoModel);
+        } catch (IOException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (ResourceNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -59,12 +61,10 @@ public class PagamentoController {
         try {
             var pagamentoModel = pagamentoService.patchUpdatePagamento(id, request);
             return ResponseEntity.status(HttpStatus.OK).body(pagamentoModel);
+        } catch (IOException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (ResourceNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
     }
 

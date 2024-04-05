@@ -158,7 +158,7 @@ public class PagamentoServiceTest {
     }
 
     @Test
-    public void when_update_payment_to_agendado_should_return_correct_response() throws ResourceNotFoundException {
+    public void when_update_payment_to_agendado_should_return_correct_response() throws ResourceNotFoundException, IOException {
         var request = createPagamentoRequestAgendado();
         UUID id = UUID.randomUUID();
         var pagamentoAgendado = createPagamentoAgendado();
@@ -192,7 +192,7 @@ public class PagamentoServiceTest {
     }
 
     @Test
-    public void when_update_patch_payment_should_return_correct_response() throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException {
+    public void when_update_patch_payment_should_return_correct_response() throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException, IOException {
         var request = createPagamentoRequestAgendado();
         UUID id = UUID.randomUUID();
         var pagamento = createPagamentoAgendado();

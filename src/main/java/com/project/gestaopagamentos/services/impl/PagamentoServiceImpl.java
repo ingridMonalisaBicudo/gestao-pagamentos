@@ -17,7 +17,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,7 +42,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         var pagamentoModel = new PagamentoModel();
         var isValidDate = validateDate(pagamentoRequest.getStatus(), pagamentoRequest.getPagamento().toLocalDate());
 
-        if(!isValidDate){ //TODO colocar no PUT tbm
+        if(!isValidDate){
             throw new IOException("Payment date is not valid");
         }
 
@@ -77,7 +76,12 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
-    public PagamentoResponse updatePagamento(UUID id , PagamentoRequest request) throws ResourceNotFoundException {
+    public PagamentoResponse updatePagamento(UUID id , PagamentoRequest request) throws ResourceNotFoundException, IOException {
+        var isValidDate = validateDate(request.getStatus(), request.getPagamento().toLocalDate());
+        if(!isValidDate){
+            throw new IOException("Payment date is not valid");
+        }
+
         PagamentoModel pagamentoModel = getById(id);
         BeanUtils.copyProperties(request, pagamentoModel);
         pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
@@ -87,10 +91,16 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
-    public PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException { //TODO tratar as duas 2 outras exceções
+    public PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, IOException {
         var pagamentoModel = getById(id);
         beanUtilsBean.copyProperties(request, pagamentoModel);
-        pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
+        if(request.getPagamento() != null && !validateDate(pagamentoModel.getStatus(), request.getPagamento().toLocalDate())){
+            throw new IOException("Payment date is not valid");
+        }
+        if(pagamentoModel.getDestino().getChavePix() != null){
+            pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
+        }
+
         pagamentoRepository.save(pagamentoModel);
 
         return mapper.toPagamentoResponse(pagamentoModel);

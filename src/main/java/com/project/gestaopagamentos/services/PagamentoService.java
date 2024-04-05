@@ -16,7 +16,7 @@ public interface PagamentoService {
     List<PagamentoResponse> getAll();
     List<PagamentoResponse> getByStatus(Status status);
     PagamentoModel getById(UUID id) throws ResourceNotFoundException;
-    PagamentoResponse updatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException;
-    PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException;
+    PagamentoResponse updatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, IOException;
+    PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, IOException;
     void deleteById(UUID id) throws ResourceNotFoundException;
 }
