@@ -68,7 +68,6 @@ public class PagamentoServiceTest {
 
     @Test
     public void when_try_create_payment_by_id_with_invalid_date_status_agendado_should_return_resource_io_exception() {
-        UUID id = UUID.randomUUID();
         var request = createPagamentoRequestAgendado();
         request.setDataPagamento(LocalDateTime.now());
 
@@ -77,7 +76,6 @@ public class PagamentoServiceTest {
 
     @Test
     public void when_try_create_payment_by_id_with_invalid_date_status_efetuado_should_return_resource_io_exception() {
-        UUID id = UUID.randomUUID();
         var request = createPagamentoRequestEefetuado();
         request.setDataPagamento( LocalDateTime.now().plus(1, ChronoUnit.DAYS));
 
@@ -182,6 +180,31 @@ public class PagamentoServiceTest {
     }
 
     @Test
+    public void when_try_update_payment_by_id_with_invalid_date_status_agendado_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var request = createPagamentoRequestAgendado();
+        request.setDataPagamento(LocalDateTime.now());
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.updatePagamento(id, request));
+    }
+
+    @Test
+    public void when_try_update_payment_by_id_with_invalid_date_status_efetuado_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var request = createPagamentoRequestEefetuado();
+        request.setDataPagamento( LocalDateTime.now().plus(1, ChronoUnit.DAYS));
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.updatePagamento(id, request));
+    }
+    @Test
+    public void when_try_update_payment_by_id_with_invalid_date_in_the_past_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var request = createPagamentoRequestEefetuado();
+        request.setDataPagamento( LocalDateTime.now().minus(1, ChronoUnit.DAYS));
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.updatePagamento(id, request));
+    }
+    @Test
     public void when_try_update_payment_by_id_should_return_resource_not_found_exception() {
         UUID id = UUID.randomUUID();
         var request = createPagamentoRequestAgendado();
@@ -211,6 +234,41 @@ public class PagamentoServiceTest {
         assertEquals(responseExpected.getDestino().getTipoChavePix(), response.getDestino().getTipoChavePix());
         assertEquals(responseExpected.getRecorrencia().getFrequencia(), response.getRecorrencia().getFrequencia());
         assertEquals(responseExpected.getRecorrencia().getDataFinal(), response.getRecorrencia().getDataFinal());
+    }
+
+    @Test
+    public void when_try_update_patch_payment_by_id_with_invalid_date_status_agendado_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var pagamento = createPagamentoAgendado();
+        var request = createPagamentoRequestAgendado();
+        request.setDataPagamento(LocalDateTime.now());
+
+        when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.of(pagamento));
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.patchUpdatePagamento(id, request));
+    }
+
+    @Test
+    public void when_try_update_patch_payment_by_id_with_invalid_date_status_efetuado_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var pagamento = createPagamentoEfetuado();
+        var request = createPagamentoRequestEefetuado();
+        request.setDataPagamento( LocalDateTime.now().plus(1, ChronoUnit.DAYS));
+
+        when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.of(pagamento));
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.patchUpdatePagamento(id, request));
+    }
+    @Test
+    public void when_try_update_patch_payment_by_id_with_invalid_date_in_the_past_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var pagamento = createPagamentoEfetuado();
+        var request = createPagamentoRequestEefetuado();
+        request.setDataPagamento( LocalDateTime.now().minus(1, ChronoUnit.DAYS));
+
+        when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.of(pagamento));
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.patchUpdatePagamento(id, request));
     }
     @Test
     public void when_try_update_patch_payment_by_id_should_return_resource_not_found_exception() {
