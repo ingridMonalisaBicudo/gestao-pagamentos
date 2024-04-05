@@ -43,7 +43,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         var pagamentoModel = new PagamentoModel();
         var isValidDate = validateDate(pagamentoRequest.getStatus(), pagamentoRequest.getPagamento().toLocalDate());
 
-        if(!isValidDate){ //TODO mudar nome para data Pagamento e o tipo para LocalDate
+        if(!isValidDate){ //TODO colocar no PUT tbm
             throw new IOException("Payment date is not valid");
         }
 

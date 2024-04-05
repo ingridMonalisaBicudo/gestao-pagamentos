@@ -17,12 +17,15 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static com.project.gestaopagamentos.utils.PagamentoTestUtil.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -63,7 +66,32 @@ public class PagamentoServiceTest {
         assertEquals(responseExpected.getRecorrencia().getDataFinal(), response.getRecorrencia().getDataFinal());
     }
 
-    //TODO Colocar cenário de erro
+    @Test
+    public void when_try_create_payment_by_id_with_invalid_date_status_agendado_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var request = createPagamentoRequestAgendado();
+        request.setPagamento(LocalDateTime.now());
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.create(request));
+    }
+
+    @Test
+    public void when_try_create_payment_by_id_with_invalid_date_status_efetuado_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var request = createPagamentoRequestEefetuado();
+        request.setPagamento( LocalDateTime.now().plus(1, ChronoUnit.DAYS));
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.create(request));
+    }
+
+    @Test
+    public void when_try_create_payment_by_id_with_invalid_date_in_the_past_should_return_resource_io_exception() {
+        UUID id = UUID.randomUUID();
+        var request = createPagamentoRequestEefetuado();
+        request.setPagamento( LocalDateTime.now().minus(1, ChronoUnit.DAYS));
+
+        assertThrows(IOException.class, () -> pagamentoServiceImpl.create(request));
+    }
     @Test
     public void when_get_all_payments_should_return_correct_response_list() {
         var pagamentoList = createPagamentoList();
@@ -122,6 +150,14 @@ public class PagamentoServiceTest {
     }
 
     @Test
+    public void when_get_payment_by_id_should_return_resource_not_found_exception() {
+
+        when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> pagamentoServiceImpl.getById(UUID.randomUUID()));
+    }
+
+    @Test
     public void when_update_payment_to_agendado_should_return_correct_response() throws ResourceNotFoundException {
         var request = createPagamentoRequestAgendado();
         UUID id = UUID.randomUUID();
@@ -146,6 +182,16 @@ public class PagamentoServiceTest {
     }
 
     @Test
+    public void when_try_update_payment_by_id_should_return_resource_not_found_exception() {
+        UUID id = UUID.randomUUID();
+        var request = createPagamentoRequestAgendado();
+
+        when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> pagamentoServiceImpl.updatePagamento(id, request));
+    }
+
+    @Test
     public void when_update_patch_payment_should_return_correct_response() throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException {
         var request = createPagamentoRequestAgendado();
         UUID id = UUID.randomUUID();
@@ -166,9 +212,17 @@ public class PagamentoServiceTest {
         assertEquals(responseExpected.getRecorrencia().getFrequencia(), response.getRecorrencia().getFrequencia());
         assertEquals(responseExpected.getRecorrencia().getDataFinal(), response.getRecorrencia().getDataFinal());
     }
-
     @Test
-    public void when_delete_payment_should_return_correct_response() throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException {
+    public void when_try_update_patch_payment_by_id_should_return_resource_not_found_exception() {
+        UUID id = UUID.randomUUID();
+        var request = createPagamentoRequestAgendado();
+
+        when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> pagamentoServiceImpl.patchUpdatePagamento(id, request));
+    }
+    @Test
+    public void when_delete_payment_should_return_correct_response() throws ResourceNotFoundException {
         UUID id = UUID.randomUUID();
         var pagamento = createPagamentoAgendado();
 
@@ -179,6 +233,14 @@ public class PagamentoServiceTest {
 
         verify(pagamentoRepository).findById(any(UUID.class));
         verify(pagamentoRepository).save(any(PagamentoModel.class));
+    }
+    @Test
+    public void when_try_delete_payment_by_id_should_return_resource_not_found_exception() {
+        UUID id = UUID.randomUUID();
+
+        when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> pagamentoServiceImpl.deleteById(id));
     }
 
 }
