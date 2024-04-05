@@ -83,7 +83,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
         var pagamentoUpdated = pagamentoRepository.save(pagamentoModel);
 
-        return mapper.toPagamentoResponse(pagamentoModel);
+        return mapper.toPagamentoResponse(pagamentoUpdated);
     }
 
     @Override
