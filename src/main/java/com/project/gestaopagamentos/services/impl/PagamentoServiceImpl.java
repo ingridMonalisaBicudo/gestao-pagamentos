@@ -40,13 +40,13 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Override
     public PagamentoResponse create(PagamentoRequest pagamentoRequest) throws IOException { //TODO adicionar logs
         var pagamentoModel = new PagamentoModel();
-        var isValidDate = validateDate(pagamentoRequest.getStatus(), pagamentoRequest.getPagamento().toLocalDate());
+        var isValidDate = validateDate(pagamentoRequest.getStatus(), pagamentoRequest.getDataPagamento().toLocalDate());
 
         if(!isValidDate){
             throw new IOException("Payment date is not valid");
         }
 
-        var pagamentoList = pagamentoRepository.findByValorAndPagamentoAndDestino(pagamentoRequest.getValor(), pagamentoRequest.getPagamento(), pagamentoRequest.getDestino().getChavePix());
+        var pagamentoList = pagamentoRepository.findByValorAndPagamentoAndDestino(pagamentoRequest.getValor(), pagamentoRequest.getDataPagamento(), pagamentoRequest.getDestino().getChavePix());
         if(!pagamentoList.isEmpty()){
             log.warn("There is already a payment with the same amount, payment date and pix key");
         }
@@ -77,7 +77,7 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     @Override
     public PagamentoResponse updatePagamento(UUID id , PagamentoRequest request) throws ResourceNotFoundException, IOException {
-        var isValidDate = validateDate(request.getStatus(), request.getPagamento().toLocalDate());
+        var isValidDate = validateDate(request.getStatus(), request.getDataPagamento().toLocalDate());
         if(!isValidDate){
             throw new IOException("Payment date is not valid");
         }
@@ -94,7 +94,7 @@ public class PagamentoServiceImpl implements PagamentoService {
     public PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, IOException {
         var pagamentoModel = getById(id);
         beanUtilsBean.copyProperties(request, pagamentoModel);
-        if(request.getPagamento() != null && !validateDate(pagamentoModel.getStatus(), request.getPagamento().toLocalDate())){
+        if(request.getDataPagamento() != null && !validateDate(pagamentoModel.getStatus(), request.getDataPagamento().toLocalDate())){
             throw new IOException("Payment date is not valid");
         }
         if(pagamentoModel.getDestino().getChavePix() != null){

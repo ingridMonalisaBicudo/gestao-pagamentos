@@ -32,7 +32,7 @@ public class PagamentoTestUtil {
 
     public static PagamentoRequest createPagamentoRequestAgendado(){
         var request = new PagamentoRequest();
-        request.setPagamento(DATA_PAGAMENTO_AGENDADO);
+        request.setDataPagamento(DATA_PAGAMENTO_AGENDADO);
         request.setStatus(STATUS_PAGAMENTO_AGENDADO);
         request.setValor(VALOR_PAGAMENTO);
         request.setDestino(createDestino());
@@ -44,7 +44,7 @@ public class PagamentoTestUtil {
 
     public static PagamentoRequest createPagamentoRequestEefetuado(){
         var request = new PagamentoRequest();
-        request.setPagamento(DATA_PAGAMENTO_EFETUADO);
+        request.setDataPagamento(DATA_PAGAMENTO_EFETUADO);
         request.setStatus(STATUS_PAGAMENTO_EFETUADO);
         request.setValor(VALOR_PAGAMENTO);
         request.setDestino(createDestino());
@@ -73,10 +73,10 @@ public class PagamentoTestUtil {
     public static PagamentoModel createPagamentoAgendado(){
         var pagamento = new PagamentoModel();
         pagamento.setId(UUID_PAGAMENTO);
-        pagamento.setPagamento(DATA_PAGAMENTO_AGENDADO);
+        pagamento.setDataPagamento(DATA_PAGAMENTO_AGENDADO);
         pagamento.setValor(VALOR_PAGAMENTO);
         pagamento.setStatus(STATUS_PAGAMENTO_AGENDADO);
-        pagamento.setInclusao(DATA_PAGAMENTO_AGENDADO);
+        pagamento.setDataInclusao(DATA_PAGAMENTO_AGENDADO);
         pagamento.setDestino(createDestino());
         pagamento.setDescricao(DESCRICAO);
         pagamento.setRecorrencia(createdRecorrencia());
@@ -86,10 +86,10 @@ public class PagamentoTestUtil {
     public static PagamentoModel createPagamentoEfetuado(){
         var pagamento = new PagamentoModel();
         pagamento.setId(UUID_PAGAMENTO);
-        pagamento.setPagamento(DATA_PAGAMENTO_EFETUADO);
+        pagamento.setDataPagamento(DATA_PAGAMENTO_EFETUADO);
         pagamento.setValor(VALOR_PAGAMENTO);
         pagamento.setStatus(STATUS_PAGAMENTO_EFETUADO);
-        pagamento.setInclusao(DATA_INCLUSAO);
+        pagamento.setDataInclusao(DATA_INCLUSAO);
         pagamento.setDestino(createDestino());
         pagamento.setDescricao(DESCRICAO);
         pagamento.setRecorrencia(createdRecorrencia());
@@ -100,7 +100,7 @@ public class PagamentoTestUtil {
     public static PagamentoResponse createPagamentoAgendadoResponse(){
         var response = new PagamentoResponse();
         response.setId(UUID_PAGAMENTO);
-        response.setPagamento(DATA_PAGAMENTO_AGENDADO);
+        response.setDataPagamento(DATA_PAGAMENTO_AGENDADO);
         response.setValor(VALOR_PAGAMENTO);
         response.setStatus(STATUS_PAGAMENTO_AGENDADO);
         response.setInclusao(DATA_PAGAMENTO_AGENDADO);
@@ -114,7 +114,7 @@ public class PagamentoTestUtil {
     public static PagamentoResponse createPagamentoEfetuadoResponse(){
         var response = new PagamentoResponse();
         response.setId(UUID_PAGAMENTO);
-        response.setPagamento(DATA_PAGAMENTO_EFETUADO);
+        response.setDataPagamento(DATA_PAGAMENTO_EFETUADO);
         response.setValor(VALOR_PAGAMENTO);
         response.setStatus(STATUS_PAGAMENTO_EFETUADO);
         response.setInclusao(DATA_INCLUSAO);

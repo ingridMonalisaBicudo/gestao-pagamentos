@@ -57,7 +57,7 @@ public class PagamentoController {
     }
 
     @PatchMapping("/pagamentos/{id}")
-    public ResponseEntity<Object> patchUpdatePagamento(@PathVariable (value="id") UUID id, @RequestBody @Valid PagamentoRequest request) throws ResourceNotFoundException {
+    public ResponseEntity<Object> patchUpdatePagamento(@PathVariable (value="id") UUID id, @RequestBody PagamentoRequest request) throws ResourceNotFoundException {
         try {
             var pagamentoModel = pagamentoService.patchUpdatePagamento(id, request);
             return ResponseEntity.status(HttpStatus.OK).body(pagamentoModel);

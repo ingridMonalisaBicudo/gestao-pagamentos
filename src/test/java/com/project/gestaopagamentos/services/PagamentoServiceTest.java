@@ -57,7 +57,7 @@ public class PagamentoServiceTest {
 
         PagamentoResponse response = pagamentoServiceImpl.create(request);
 
-        assertEquals(responseExpected.getPagamento(), response.getPagamento());
+        assertEquals(responseExpected.getDataPagamento(), response.getDataPagamento());
         assertEquals(responseExpected.getValor(), response.getValor());
         assertEquals(responseExpected.getStatus(), response.getStatus());
         assertEquals(responseExpected.getDestino().getTipoChavePix(), response.getDestino().getTipoChavePix());
@@ -70,7 +70,7 @@ public class PagamentoServiceTest {
     public void when_try_create_payment_by_id_with_invalid_date_status_agendado_should_return_resource_io_exception() {
         UUID id = UUID.randomUUID();
         var request = createPagamentoRequestAgendado();
-        request.setPagamento(LocalDateTime.now());
+        request.setDataPagamento(LocalDateTime.now());
 
         assertThrows(IOException.class, () -> pagamentoServiceImpl.create(request));
     }
@@ -79,7 +79,7 @@ public class PagamentoServiceTest {
     public void when_try_create_payment_by_id_with_invalid_date_status_efetuado_should_return_resource_io_exception() {
         UUID id = UUID.randomUUID();
         var request = createPagamentoRequestEefetuado();
-        request.setPagamento( LocalDateTime.now().plus(1, ChronoUnit.DAYS));
+        request.setDataPagamento( LocalDateTime.now().plus(1, ChronoUnit.DAYS));
 
         assertThrows(IOException.class, () -> pagamentoServiceImpl.create(request));
     }
@@ -88,7 +88,7 @@ public class PagamentoServiceTest {
     public void when_try_create_payment_by_id_with_invalid_date_in_the_past_should_return_resource_io_exception() {
         UUID id = UUID.randomUUID();
         var request = createPagamentoRequestEefetuado();
-        request.setPagamento( LocalDateTime.now().minus(1, ChronoUnit.DAYS));
+        request.setDataPagamento( LocalDateTime.now().minus(1, ChronoUnit.DAYS));
 
         assertThrows(IOException.class, () -> pagamentoServiceImpl.create(request));
     }
@@ -102,7 +102,7 @@ public class PagamentoServiceTest {
 
         List<PagamentoResponse> response = pagamentoServiceImpl.getAll();
 
-        assertEquals(responseListExpected.get(0).getPagamento(), response.get(0).getPagamento());
+        assertEquals(responseListExpected.get(0).getDataPagamento(), response.get(0).getDataPagamento());
         assertEquals(responseListExpected.get(0).getValor(), response.get(0).getValor());
         assertEquals(responseListExpected.get(0).getStatus(), response.get(0).getStatus());
         assertEquals(responseListExpected.get(0).getDestino().getTipoChavePix(), response.get(0).getDestino().getTipoChavePix());
@@ -122,7 +122,7 @@ public class PagamentoServiceTest {
 
         List<PagamentoResponse> response = pagamentoServiceImpl.getByStatus(status);
 
-        assertEquals(responseListExpected.get(0).getPagamento(), response.get(0).getPagamento());
+        assertEquals(responseListExpected.get(0).getDataPagamento(), response.get(0).getDataPagamento());
         assertEquals(responseListExpected.get(0).getValor(), response.get(0).getValor());
         assertEquals(responseListExpected.get(0).getStatus(), response.get(0).getStatus());
         assertEquals(responseListExpected.get(0).getDestino().getTipoChavePix(), response.get(0).getDestino().getTipoChavePix());
@@ -140,7 +140,7 @@ public class PagamentoServiceTest {
 
         PagamentoModel response = pagamentoServiceImpl.getById(id);
 
-        assertEquals(pagamento.getPagamento(), response.getPagamento());
+        assertEquals(pagamento.getDataPagamento(), response.getDataPagamento());
         assertEquals(pagamento.getValor(), response.getValor());
         assertEquals(pagamento.getStatus(), response.getStatus());
         assertEquals(pagamento.getDestino().getTipoChavePix(), response.getDestino().getTipoChavePix());
@@ -173,7 +173,7 @@ public class PagamentoServiceTest {
 
 
         assertEquals(Status.EFETUADO, response.getStatus());
-        assertEquals(responseExpected.getPagamento(), response.getPagamento());
+        assertEquals(responseExpected.getDataPagamento(), response.getDataPagamento());
         assertEquals(responseExpected.getValor(), response.getValor());
         assertEquals(responseExpected.getDestino().getTipoChavePix(), response.getDestino().getTipoChavePix());
         assertEquals(responseExpected.getDestino().getChavePix(), response.getDestino().getChavePix());
@@ -204,7 +204,7 @@ public class PagamentoServiceTest {
 
         PagamentoResponse response = pagamentoServiceImpl.patchUpdatePagamento(id, request);
 
-        assertEquals(responseExpected.getPagamento(), response.getPagamento());
+        assertEquals(responseExpected.getDataPagamento(), response.getDataPagamento());
         assertEquals(responseExpected.getValor(), response.getValor());
         assertEquals(responseExpected.getStatus(), response.getStatus());
         assertEquals(responseExpected.getDestino().getChavePix(), response.getDestino().getChavePix());

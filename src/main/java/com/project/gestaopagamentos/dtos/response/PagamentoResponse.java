@@ -21,7 +21,7 @@ public class PagamentoResponse {
     private UUID id;
     private Status status;
     private LocalDateTime inclusao;
-    private LocalDateTime pagamento;
+    private LocalDateTime dataPagamento;
     private BigDecimal valor;
 
     private String descricao;

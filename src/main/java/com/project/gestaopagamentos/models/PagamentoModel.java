@@ -2,6 +2,7 @@ package com.project.gestaopagamentos.models;
 
 import com.project.gestaopagamentos.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,20 +22,31 @@ public class PagamentoModel implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
+
     @Enumerated(EnumType.STRING)
     @NotNull
     private Status status;
+
     @CreationTimestamp
-    private LocalDateTime inclusao;
-    private LocalDateTime pagamento;
+    private LocalDateTime dataInclusao;
+
+    @NotNull
+    private LocalDateTime dataPagamento;
+
+    @NotNull
     private BigDecimal valor;
 
+    @NotBlank
     private String descricao;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "recorrencia_id")
+    @NotNull
     private RecorrenciaModel recorrencia;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "destino_id")
+    @NotNull
     private DestinoModel destino;
 
 }
