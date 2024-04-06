@@ -57,6 +57,8 @@ public class PagamentoServiceImpl implements PagamentoService {
         pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));//TODO Colocar no mapper
 
         var pagamentoCreated = pagamentoRepository.save(pagamentoModel);
+        log.info("Payment created successfully: [ID: {}, Status: {}, Value: {}]", pagamentoCreated.getId(), pagamentoCreated.getStatus(), pagamentoCreated.getValor());
+
         return mapper.toPagamentoResponse(pagamentoCreated);
     }
     @Override
@@ -89,6 +91,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         BeanUtils.copyProperties(request, pagamentoModel);
         pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
         var pagamentoUpdated = pagamentoRepository.save(pagamentoModel);
+        log.info("Payment updated successfully: [ID: {}, Status: {}, Value: {}]", pagamentoUpdated.getId(), pagamentoUpdated.getStatus(), pagamentoUpdated.getValor());
 
         return mapper.toPagamentoResponse(pagamentoUpdated);
     }
@@ -105,19 +108,20 @@ public class PagamentoServiceImpl implements PagamentoService {
             pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
         }
 
-        pagamentoRepository.save(pagamentoModel);
+        var pagamentoUpdated = pagamentoRepository.save(pagamentoModel);
+        log.info("Payment updated successfully: [ID: {}, Status: {}, Value: {}]", pagamentoModel.getId(), pagamentoModel.getStatus(), pagamentoModel.getValor());
 
-        return mapper.toPagamentoResponse(pagamentoModel);
+        return mapper.toPagamentoResponse(pagamentoUpdated);
     }
 
     @Override
-    public void deleteById(UUID id) throws ResourceNotFoundException { // TODO Colocar uma mensagem avisando se já estiver cancelado
+    public void deleteById(UUID id) throws ResourceNotFoundException {
         var pagamentoModel = getById(id);
         pagamentoModel.setStatus(Status.CANCELADO);
         pagamentoRepository.save(pagamentoModel);
     }
 
-    private static boolean validateDate (Status status, LocalDate dateToValidate){ //TODO colocar isso no PUT e no PATCH
+    private static boolean validateDate (Status status, LocalDate dateToValidate){
         LocalDate currentDate = LocalDateTime.now().toLocalDate();
         if(dateToValidate.isBefore(currentDate)){
             return false;
