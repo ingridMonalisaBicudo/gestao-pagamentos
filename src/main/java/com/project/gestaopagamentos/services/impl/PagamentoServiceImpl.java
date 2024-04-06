@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,6 +39,7 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     private static final Logger log = LoggerFactory.getLogger(PagamentoServiceImpl.class);
     @Override
+    @Transactional
     public PagamentoResponse create(PagamentoRequest pagamentoRequest) throws IOException { //TODO adicionar logs
         var pagamentoModel = new PagamentoModel();
         var isValidDate = validateDate(pagamentoRequest.getStatus(), pagamentoRequest.getDataPagamento().toLocalDate());
@@ -76,6 +78,7 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
+    @Transactional
     public PagamentoResponse updatePagamento(UUID id , PagamentoRequest request) throws ResourceNotFoundException, IOException {
         var isValidDate = validateDate(request.getStatus(), request.getDataPagamento().toLocalDate());
         if(!isValidDate){
@@ -91,6 +94,7 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
+    @Transactional
     public PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, IOException {
         var pagamentoModel = getById(id);
         beanUtilsBean.copyProperties(request, pagamentoModel);
