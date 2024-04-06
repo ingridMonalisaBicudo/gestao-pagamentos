@@ -1,5 +1,6 @@
 package com.project.gestaopagamentos.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.gestaopagamentos.enums.Frequencia;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class RecorrenciaModel implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @NotNull
     private LocalDateTime dataFinal;
 
