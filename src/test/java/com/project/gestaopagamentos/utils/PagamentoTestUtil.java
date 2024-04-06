@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.project.gestaopagamentos.utils.DestinoTestUtil.createDestinoRequest;
+import static com.project.gestaopagamentos.utils.RecorrenciaTestUtil.createdRecorrenciaRequest;
+
 public class PagamentoTestUtil {
     private static final UUID UUID_PAGAMENTO = UUID.randomUUID(); //TODO Nao deixar valor random
     private static final LocalDateTime DATA_PAGAMENTO_AGENDADO = LocalDateTime.now().plus(1, ChronoUnit.DAYS);;
@@ -35,9 +38,9 @@ public class PagamentoTestUtil {
         request.setDataPagamento(DATA_PAGAMENTO_AGENDADO);
         request.setStatus(STATUS_PAGAMENTO_AGENDADO);
         request.setValor(VALOR_PAGAMENTO);
-        request.setDestino(createDestino());
+        request.setDestino(createDestinoRequest());
         request.setDescricao(DESCRICAO);
-        request.setRecorrencia(createdRecorrencia());
+        request.setRecorrencia(createdRecorrenciaRequest());
 
         return request;
     }
@@ -47,9 +50,9 @@ public class PagamentoTestUtil {
         request.setDataPagamento(DATA_PAGAMENTO_EFETUADO);
         request.setStatus(STATUS_PAGAMENTO_EFETUADO);
         request.setValor(VALOR_PAGAMENTO);
-        request.setDestino(createDestino());
+        request.setDestino(createDestinoRequest());
         request.setDescricao(DESCRICAO);
-        request.setRecorrencia(createdRecorrencia());
+        request.setRecorrencia(createdRecorrenciaRequest());
 
         return request;
     }

@@ -37,8 +37,8 @@ public class PagamentoRequest {
     private String descricao;
 
     @NotNull
-    private RecorrenciaModel recorrencia;
+    private RecorrenciaRequest recorrencia;
 
     @NotNull
-    private DestinoModel destino;
+    private DestinoRequest destino;
 }
