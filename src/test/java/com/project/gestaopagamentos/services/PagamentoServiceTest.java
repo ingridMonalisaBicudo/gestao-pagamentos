@@ -162,6 +162,7 @@ public class PagamentoServiceTest {
 
         when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.of(pagamentoAgendado));
         when(pagamentoRepository.save(any(PagamentoModel.class))).thenReturn(pagamentoEfetuado);
+        when(mapper.toPagamento(any(PagamentoRequest.class))).thenReturn(pagamentoEfetuado);
         when(mapper.toPagamentoResponse(any(PagamentoModel.class))).thenReturn(responseExpected);
 
         PagamentoResponse response = pagamentoServiceImpl.updatePagamento(id, request);
@@ -220,6 +221,7 @@ public class PagamentoServiceTest {
 
         when(pagamentoRepository.findById(any(UUID.class))).thenReturn(Optional.of(pagamento));
         when(pagamentoRepository.save(any(PagamentoModel.class))).thenReturn(pagamento);
+        when(mapper.merge(any(PagamentoModel.class), any(PagamentoRequest.class))).thenReturn(pagamento);
         when(mapper.toPagamentoResponse(any(PagamentoModel.class))).thenReturn(responseExpected);
 
         PagamentoResponse response = pagamentoServiceImpl.patchUpdatePagamento(id, request);
