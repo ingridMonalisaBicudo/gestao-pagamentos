@@ -6,14 +6,12 @@ import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.enums.TipoChavePix;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
-import com.project.gestaopagamentos.helper.NullAwareBeanUtilsBean;
 import com.project.gestaopagamentos.mappers.PagamentoMapper;
 import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.repositories.PagamentoRepository;
 import com.project.gestaopagamentos.services.PagamentoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,15 +30,12 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Autowired
     private PagamentoRepository pagamentoRepository;
     @Autowired
-    private NullAwareBeanUtilsBean beanUtilsBean;
-
-    @Autowired
     private PagamentoMapper mapper;
 
     private static final Logger log = LoggerFactory.getLogger(PagamentoServiceImpl.class);
     @Override
     @Transactional
-    public PagamentoResponse create(PagamentoRequest pagamentoRequest) throws IOException { //TODO adicionar logs
+    public PagamentoResponse create(PagamentoRequest pagamentoRequest) throws IOException {
         var pagamentoModel = new PagamentoModel();
         var isValidDate = validateDate(pagamentoRequest.getStatus(), pagamentoRequest.getDataPagamento().toLocalDate());
 
@@ -54,7 +49,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         }
 
         pagamentoModel = mapper.toPagamento(pagamentoRequest);
-        pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));//TODO Colocar no mapper
+        pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
 
         var pagamentoCreated = pagamentoRepository.save(pagamentoModel);
         log.info("Payment created successfully: [ID: {}, Status: {}, Value: {}]", pagamentoCreated.getId(), pagamentoCreated.getStatus(), pagamentoCreated.getValor());
@@ -67,7 +62,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         return mapper.toPagamentoResponseList(pagamentoList);
     }
     @Override
-    public List<PagamentoResponse> getByStatus(Status status){ //TODO Tratar caso de status invalido
+    public List<PagamentoResponse> getByStatus(Status status){
         var pagamentoList = pagamentoRepository.findByStatus(status);
         return mapper.toPagamentoResponseList(pagamentoList);
     }
@@ -87,9 +82,10 @@ public class PagamentoServiceImpl implements PagamentoService {
             throw new IOException("Payment date is not valid");
         }
 
-        PagamentoModel pagamentoModel = getById(id);
-        BeanUtils.copyProperties(request, pagamentoModel);
+        getById(id);
+        var pagamentoModel = mapper.toPagamento(request);
         pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
+
         var pagamentoUpdated = pagamentoRepository.save(pagamentoModel);
         log.info("Payment updated successfully: [ID: {}, Status: {}, Value: {}]", pagamentoUpdated.getId(), pagamentoUpdated.getStatus(), pagamentoUpdated.getValor());
 
@@ -99,17 +95,20 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Override
     @Transactional
     public PagamentoResponse patchUpdatePagamento(UUID id, PagamentoRequest request) throws ResourceNotFoundException, IOException {
-        var pagamentoModel = getById(id);
-        beanUtilsBean.copyProperties(request, pagamentoModel);
-        if(request.getDataPagamento() != null && !validateDate(pagamentoModel.getStatus(), request.getDataPagamento().toLocalDate())){
+        var pagamento = getById(id);
+
+        if(request.getDataPagamento() != null && !validateDate(pagamento.getStatus(), request.getDataPagamento().toLocalDate())){
             throw new IOException("Payment date is not valid");
         }
-        if(pagamentoModel.getDestino().getChavePix() != null){
-            pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
+
+        var pagamentoMerged = mapper.merge(pagamento, request);
+
+        if(pagamentoMerged.getDestino().getChavePix() != null){
+            pagamentoMerged.getDestino().setTipoChavePix(getTypePix(pagamento.getDestino().getChavePix()));
         }
 
-        var pagamentoUpdated = pagamentoRepository.save(pagamentoModel);
-        log.info("Payment updated successfully: [ID: {}, Status: {}, Value: {}]", pagamentoModel.getId(), pagamentoModel.getStatus(), pagamentoModel.getValor());
+        var pagamentoUpdated = pagamentoRepository.save(pagamentoMerged);
+        log.info("Payment updated successfully: [ID: {}, Status: {}, Value: {}]", pagamentoUpdated.getId(), pagamentoUpdated.getStatus(), pagamentoUpdated.getValor());
 
         return mapper.toPagamentoResponse(pagamentoUpdated);
     }
@@ -133,7 +132,7 @@ public class PagamentoServiceImpl implements PagamentoService {
 
         return true;
     }
-    private TipoChavePix getTypePix(String pixKey){ //TODO Colocar no mapper
+    private TipoChavePix getTypePix(String pixKey){
 
             if(isValidEmail(pixKey)){
                 return TipoChavePix.EMAIL;
