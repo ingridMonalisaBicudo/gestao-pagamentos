@@ -5,7 +5,6 @@ import com.project.gestaopagamentos.dtos.response.PagamentoResponse;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
-import com.project.gestaopagamentos.helper.NullAwareBeanUtilsBean;
 import com.project.gestaopagamentos.mappers.PagamentoMapper;
 import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.repositories.PagamentoRepository;
@@ -35,8 +34,6 @@ public class PagamentoServiceTest {
 
     @Mock
     PagamentoRepository pagamentoRepository;
-    @Mock
-    private NullAwareBeanUtilsBean beanUtilsBean;
 
     @Mock
     private PagamentoMapper mapper;
