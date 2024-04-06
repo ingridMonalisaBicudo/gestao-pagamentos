@@ -2,11 +2,8 @@ package com.project.gestaopagamentos.utils;
 
 import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
 import com.project.gestaopagamentos.dtos.response.PagamentoResponse;
-import com.project.gestaopagamentos.enums.Frequencia;
 import com.project.gestaopagamentos.enums.Status;
-import com.project.gestaopagamentos.models.DestinoModel;
 import com.project.gestaopagamentos.models.PagamentoModel;
-import com.project.gestaopagamentos.models.RecorrenciaModel;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.project.gestaopagamentos.utils.DestinoTestUtil.createDestinoRequest;
-import static com.project.gestaopagamentos.utils.RecorrenciaTestUtil.createdRecorrenciaRequest;
+import static com.project.gestaopagamentos.utils.DestinoTestUtil.*;
+import static com.project.gestaopagamentos.utils.RecorrenciaTestUtil.*;
 
 public class PagamentoTestUtil {
-    private static final UUID UUID_PAGAMENTO = UUID.randomUUID(); //TODO Nao deixar valor random
+    private static final UUID UUID_PAGAMENTO = UUID.randomUUID();
     private static final LocalDateTime DATA_PAGAMENTO_AGENDADO = LocalDateTime.now().plus(1, ChronoUnit.DAYS);;
     private static final LocalDateTime DATA_PAGAMENTO_EFETUADO = LocalDateTime.now();
     private static final LocalDateTime DATA_FINAL = LocalDateTime.now();
@@ -40,7 +37,7 @@ public class PagamentoTestUtil {
         request.setValor(VALOR_PAGAMENTO);
         request.setDestino(createDestinoRequest());
         request.setDescricao(DESCRICAO);
-        request.setRecorrencia(createdRecorrenciaRequest());
+        request.setRecorrencia(creatRecorrenciaRequest());
 
         return request;
     }
@@ -52,26 +49,9 @@ public class PagamentoTestUtil {
         request.setValor(VALOR_PAGAMENTO);
         request.setDestino(createDestinoRequest());
         request.setDescricao(DESCRICAO);
-        request.setRecorrencia(createdRecorrenciaRequest());
+        request.setRecorrencia(creatRecorrenciaRequest());
 
         return request;
-    }
-
-    private static DestinoModel createDestino(){ //TODO criar um DTO tbm e um util de teste
-        var destino = new DestinoModel();
-        destino.setId(UUID_DESTINO);
-        destino.setChavePix(CHAVE_PIX_EMAIL);
-
-        return destino;
-    }
-
-    private static RecorrenciaModel createdRecorrencia(){ //TODO criar um DTO tbm e um util de teste
-        var recorrencia = new RecorrenciaModel();
-        recorrencia.setId(UUID_RECORRENCIA);
-        recorrencia.setDataFinal(DATA_FINAL);
-        recorrencia.setFrequencia(Frequencia.MENSAL);
-
-        return recorrencia;
     }
     public static PagamentoModel createPagamentoAgendado(){
         var pagamento = new PagamentoModel();
@@ -80,9 +60,9 @@ public class PagamentoTestUtil {
         pagamento.setValor(VALOR_PAGAMENTO);
         pagamento.setStatus(STATUS_PAGAMENTO_AGENDADO);
         pagamento.setDataInclusao(DATA_PAGAMENTO_AGENDADO);
-        pagamento.setDestino(createDestino());
+        pagamento.setDestino(createDestinoModel());
         pagamento.setDescricao(DESCRICAO);
-        pagamento.setRecorrencia(createdRecorrencia());
+        pagamento.setRecorrencia(creatRecorrenciaModel());
 
         return pagamento;
     }
@@ -93,9 +73,9 @@ public class PagamentoTestUtil {
         pagamento.setValor(VALOR_PAGAMENTO);
         pagamento.setStatus(STATUS_PAGAMENTO_EFETUADO);
         pagamento.setDataInclusao(DATA_INCLUSAO);
-        pagamento.setDestino(createDestino());
+        pagamento.setDestino(createDestinoModel());
         pagamento.setDescricao(DESCRICAO);
-        pagamento.setRecorrencia(createdRecorrencia());
+        pagamento.setRecorrencia(creatRecorrenciaModel());
 
         return pagamento;
     }
@@ -107,9 +87,9 @@ public class PagamentoTestUtil {
         response.setValor(VALOR_PAGAMENTO);
         response.setStatus(STATUS_PAGAMENTO_AGENDADO);
         response.setInclusao(DATA_PAGAMENTO_AGENDADO);
-        response.setDestino(createDestino());
+        response.setDestino(createDestinoResponse());
         response.setDescricao(DESCRICAO);
-        response.setRecorrencia(createdRecorrencia());
+        response.setRecorrencia(creatRecorrenciaResponse());
 
         return response;
     }
@@ -121,9 +101,9 @@ public class PagamentoTestUtil {
         response.setValor(VALOR_PAGAMENTO);
         response.setStatus(STATUS_PAGAMENTO_EFETUADO);
         response.setInclusao(DATA_INCLUSAO);
-        response.setDestino(createDestino());
+        response.setDestino(createDestinoResponse());
         response.setDescricao(DESCRICAO);
-        response.setRecorrencia(createdRecorrencia());
+        response.setRecorrencia(creatRecorrenciaResponse());
 
         return response;
     }

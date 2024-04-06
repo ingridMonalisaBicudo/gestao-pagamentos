@@ -25,6 +25,6 @@ public class PagamentoResponse {
     private BigDecimal valor;
 
     private String descricao;
-    private RecorrenciaModel recorrencia;
-    private DestinoModel destino;
+    private RecorrenciaResponse recorrencia;
+    private DestinoResponse destino;
 }
