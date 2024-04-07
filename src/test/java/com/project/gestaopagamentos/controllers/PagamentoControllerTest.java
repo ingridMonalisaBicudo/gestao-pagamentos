@@ -5,6 +5,8 @@ import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
+import com.project.gestaopagamentos.mappers.PagamentoMapper;
+import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.services.impl.PagamentoServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +16,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static com.project.gestaopagamentos.utils.PagamentoTestUtil.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import java.time.LocalDateTime;
@@ -21,8 +25,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
-import static com.project.gestaopagamentos.utils.PagamentoTestUtil.createPagamentoAgendadoResponse;
-import static com.project.gestaopagamentos.utils.PagamentoTestUtil.createPagamentoRequestAgendado;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,6 +40,8 @@ public class PagamentoControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+    @MockBean
+    private PagamentoMapper pagamentoMapper;
     @Autowired
     private MockMvc mockMvc;
 
@@ -85,6 +89,30 @@ public class PagamentoControllerTest {
 
         mockMvc.perform(get("/pagamentos/{status}", Status.AGENDADO))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void test_get_by_id_should_return_pagamento_status_ok() throws Exception {
+        UUID id = UUID.randomUUID();
+        var pagamentoModel = createPagamentoAgendado();
+        var responseExpected = createPagamentoAgendadoResponse();
+
+        when(pagamentoService.getById(any(UUID.class))).thenReturn(pagamentoModel);
+        when(pagamentoMapper.toPagamentoResponse(any(PagamentoModel.class))).thenReturn(responseExpected);
+
+        mockMvc.perform(get("/pagamentos/id/{id}", id))
+                .andExpect(status().isOk());
+    }
+    @Test
+    public void test_get_by_id_should_return_resource_not_found_exception() throws Exception {
+        UUID id = UUID.randomUUID();
+
+        when(pagamentoService.getById(id)).thenThrow(new ResourceNotFoundException("Payment Not Found"));
+
+        mockMvc.perform(get("/pagamentos/id/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Payment Not Found"));
     }
 
     @Test

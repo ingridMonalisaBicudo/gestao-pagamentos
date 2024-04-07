@@ -5,6 +5,7 @@ import com.project.gestaopagamentos.dtos.response.PagamentoResponse;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
+import com.project.gestaopagamentos.mappers.PagamentoMapper;
 import com.project.gestaopagamentos.services.PagamentoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class PagamentoController {
     @Autowired
     PagamentoService pagamentoService;
 
+    @Autowired
+    private PagamentoMapper mapper;
+
     @PostMapping("/pagamentos")
     public ResponseEntity<Object> createPagamento(@RequestBody @Valid PagamentoRequest pagamentoRequest) throws IOException {
            try{
@@ -31,6 +35,16 @@ public class PagamentoController {
                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
            }
 
+    }
+
+    @GetMapping("/pagamentos/id/{id}")
+    public ResponseEntity<Object> getById(@PathVariable (value="id") UUID id) {
+        try{
+            var pagamentoResponse = mapper.toPagamentoResponse(pagamentoService.getById(id));
+            return ResponseEntity.status(HttpStatus.OK).body(pagamentoResponse);
+        } catch (ResourceNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/pagamentos")
