@@ -154,7 +154,7 @@ public class PagamentoServiceTest {
 
     @Test
     public void when_update_payment_to_agendado_should_return_correct_response() throws ResourceNotFoundException, IOException {
-        var request = createPagamentoRequestAgendado();
+        var request = createPagamentoRequestEefetuado();
         UUID id = UUID.randomUUID();
         var pagamentoAgendado = createPagamentoAgendado();
         var pagamentoEfetuado = createPagamentoEfetuado();
