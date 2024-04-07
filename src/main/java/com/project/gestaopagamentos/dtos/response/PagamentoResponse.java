@@ -20,7 +20,7 @@ public class PagamentoResponse {
 
     private UUID id;
     private Status status;
-    private LocalDateTime inclusao;
+    private LocalDateTime dataInclusao;
     private LocalDateTime dataPagamento;
     private BigDecimal valor;
 
