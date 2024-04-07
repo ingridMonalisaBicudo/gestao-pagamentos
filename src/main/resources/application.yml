@@ -17,3 +17,4 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
