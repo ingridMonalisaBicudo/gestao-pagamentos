@@ -86,7 +86,7 @@ public class PagamentoTestUtil {
         response.setDataPagamento(DATA_PAGAMENTO_AGENDADO);
         response.setValor(VALOR_PAGAMENTO);
         response.setStatus(STATUS_PAGAMENTO_AGENDADO);
-        response.setInclusao(DATA_PAGAMENTO_AGENDADO);
+        response.setDataInclusao(DATA_INCLUSAO);
         response.setDestino(createDestinoResponse());
         response.setDescricao(DESCRICAO);
         response.setRecorrencia(creatRecorrenciaResponse());
@@ -100,7 +100,7 @@ public class PagamentoTestUtil {
         response.setDataPagamento(DATA_PAGAMENTO_EFETUADO);
         response.setValor(VALOR_PAGAMENTO);
         response.setStatus(STATUS_PAGAMENTO_EFETUADO);
-        response.setInclusao(DATA_INCLUSAO);
+        response.setDataInclusao(DATA_INCLUSAO);
         response.setDestino(createDestinoResponse());
         response.setDescricao(DESCRICAO);
         response.setRecorrencia(creatRecorrenciaResponse());
