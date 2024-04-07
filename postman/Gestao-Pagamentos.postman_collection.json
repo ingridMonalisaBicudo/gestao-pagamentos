@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "0e20495b-3f22-45f2-b937-fce216ffc091",
+		"name": "Gestao-Pagamentos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CREATE",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"AGENDADO\",\r\n    \"dataPagamento\": \"2024-04-11T10:15:30\",\r\n    \"valor\": 200.0,\r\n    \"descricao\": \"descricao pagamento\",\r\n    \"destino\": {\r\n        \"chavePix\": \"monalisa.carraro@gmail.com\"\r\n    },\r\n    \"recorrencia\": {\r\n        \"dataFinal\": \"2024-05-22T10:15:30\",\r\n        \"frequencia\": \"SEMANAL\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/pagamentos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pagamentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BY ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/pagamentos/9f669134-74f0-4259-a706-25f365102233",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pagamentos",
+						"9f669134-74f0-4259-a706-25f365102233"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GEL ALL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/pagamentos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pagamentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET BY STATUS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/pagamentos/status/AGENDADO",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pagamentos",
+						"status",
+						"AGENDADO"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ATUALIZA",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"AGENDADO\",\r\n    \"dataPagamento\": \"2024-04-11T10:15:30\",\r\n    \"valor\": 200.0,\r\n    \"descricao\": \"descricao pagamento\",\r\n    \"destino\": {\r\n        \"chavePix\": \"11992554307\"\r\n    },\r\n    \"recorrencia\": {\r\n        \"dataFinal\": \"2024-05-22T10:15:30\",\r\n        \"frequencia\": \"SEMANAL\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/pagamentos/9f669134-74f0-4259-a706-25f365102233",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pagamentos",
+						"9f669134-74f0-4259-a706-25f365102233"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ATUALIZA PATCH",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"destino\":{\r\n        \"chavePix\": \"ingrid.bicudo@gmail.com\"\r\n    },\r\n    \"valor\": 250.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/pagamentos/9f669134-74f0-4259-a706-25f365102233",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pagamentos",
+						"9f669134-74f0-4259-a706-25f365102233"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/pagamentos/9f669134-74f0-4259-a706-25f365102233",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pagamentos",
+						"9f669134-74f0-4259-a706-25f365102233"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
