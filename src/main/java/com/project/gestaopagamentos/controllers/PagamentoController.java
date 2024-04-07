@@ -82,10 +82,10 @@ public class PagamentoController {
     }
 
     @DeleteMapping("/pagamentos/{id}")
-    public ResponseEntity<Object> patchUpdatePagamento(@PathVariable (value="id") UUID id) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException {
+    public ResponseEntity<Object> deletePagamento(@PathVariable (value="id") UUID id) throws ResourceNotFoundException, InvocationTargetException, IllegalAccessException {
         try {
             pagamentoService.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Pagamento deleted successfuly");
+            return ResponseEntity.status(HttpStatus.OK).body("Payment deleted successfuly");
         } catch (ResourceNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
