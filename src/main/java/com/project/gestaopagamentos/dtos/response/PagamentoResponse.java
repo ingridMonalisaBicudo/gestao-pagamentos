@@ -1,8 +1,6 @@
 package com.project.gestaopagamentos.dtos.response;
 
 import com.project.gestaopagamentos.enums.Status;
-import com.project.gestaopagamentos.models.DestinoModel;
-import com.project.gestaopagamentos.models.RecorrenciaModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -5,7 +5,6 @@ import com.project.gestaopagamentos.dtos.response.PagamentoResponse;
 import com.project.gestaopagamentos.enums.Status;
 import com.project.gestaopagamentos.exceptions.IOException;
 import com.project.gestaopagamentos.exceptions.ResourceNotFoundException;
-import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.services.PagamentoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

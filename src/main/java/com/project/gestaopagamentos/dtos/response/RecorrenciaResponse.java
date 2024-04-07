@@ -1,10 +1,6 @@
 package com.project.gestaopagamentos.dtos.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.gestaopagamentos.enums.Frequencia;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

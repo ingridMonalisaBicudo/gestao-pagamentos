@@ -3,7 +3,6 @@ package com.project.gestaopagamentos.mappers;
 import com.project.gestaopagamentos.dtos.request.PagamentoRequest;
 import com.project.gestaopagamentos.dtos.response.PagamentoResponse;
 import com.project.gestaopagamentos.models.PagamentoModel;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
