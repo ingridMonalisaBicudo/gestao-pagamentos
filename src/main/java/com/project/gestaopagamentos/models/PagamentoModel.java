@@ -40,8 +40,7 @@ public class PagamentoModel implements Serializable {
     private String descricao;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "recorrencia_id")
-    @NotNull
+    @JoinColumn(name = "recorrencia_id",  nullable = true)
     private RecorrenciaModel recorrencia;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

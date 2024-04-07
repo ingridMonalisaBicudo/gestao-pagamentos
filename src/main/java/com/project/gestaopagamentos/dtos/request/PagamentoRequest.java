@@ -30,7 +30,6 @@ public class PagamentoRequest {
     @NotBlank
     private String descricao;
 
-    @NotNull
     private RecorrenciaRequest recorrencia;
 
     @NotNull

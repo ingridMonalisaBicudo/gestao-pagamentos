@@ -5,7 +5,7 @@ CREATE TABLE TB_PAGAMENTOS (
     data_pagamento TIMESTAMP NOT NULL,
     valor DECIMAL(19,2) NOT NULL,
     descricao VARCHAR(255) NOT NULL,
-    recorrencia_id UUID NOT NULL,
+    recorrencia_id UUID,
     destino_id UUID NOT NULL,
     CONSTRAINT fk_recorrencia FOREIGN KEY (recorrencia_id) REFERENCES RecorrenciaModel(id),
     CONSTRAINT fk_destino FOREIGN KEY (destino_id) REFERENCES DestinoModel(id)
