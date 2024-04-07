@@ -10,8 +10,7 @@ import com.project.gestaopagamentos.mappers.PagamentoMapper;
 import com.project.gestaopagamentos.models.PagamentoModel;
 import com.project.gestaopagamentos.repositories.PagamentoRepository;
 import com.project.gestaopagamentos.services.PagamentoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +24,7 @@ import static com.project.gestaopagamentos.utils.PixKeyValidator.isValidEmail;
 import static com.project.gestaopagamentos.utils.PixKeyValidator.isValidPhone;
 
 @Service
+@Slf4j
 public class PagamentoServiceImpl implements PagamentoService {
 
     @Autowired
@@ -32,7 +32,6 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Autowired
     private PagamentoMapper mapper;
 
-    private static final Logger log = LoggerFactory.getLogger(PagamentoServiceImpl.class);
     @Override
     @Transactional
     public PagamentoResponse create(PagamentoRequest pagamentoRequest) throws IOException {
@@ -82,8 +81,8 @@ public class PagamentoServiceImpl implements PagamentoService {
             throw new IOException("Payment date is not valid");
         }
 
-        getById(id);
-        var pagamentoModel = mapper.toPagamento(request);
+        var pagamentoModel = getById(id);
+        pagamentoModel = mapper.merge(pagamentoModel, request);
         pagamentoModel.getDestino().setTipoChavePix(getTypePix(pagamentoModel.getDestino().getChavePix()));
 
         var pagamentoUpdated = pagamentoRepository.save(pagamentoModel);
