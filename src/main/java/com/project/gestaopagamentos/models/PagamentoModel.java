@@ -49,4 +49,8 @@ public class PagamentoModel implements Serializable {
     @NotNull
     private DestinoModel destino;
 
+    @PrePersist
+    public void prePersist() {
+        this.dataInclusao = LocalDateTime.now();
+    }
 }
