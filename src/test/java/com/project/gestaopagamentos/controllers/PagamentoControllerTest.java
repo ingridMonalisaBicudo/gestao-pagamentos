@@ -87,7 +87,7 @@ public class PagamentoControllerTest {
 
         when(pagamentoService.getByStatus(any(Status.class))).thenReturn(List.of(responseExpected));
 
-        mockMvc.perform(get("/pagamentos/{status}", Status.AGENDADO))
+        mockMvc.perform(get("/pagamentos/status/{status}", Status.AGENDADO))
                 .andExpect(status().isOk());
     }
 
@@ -100,7 +100,7 @@ public class PagamentoControllerTest {
         when(pagamentoService.getById(any(UUID.class))).thenReturn(pagamentoModel);
         when(pagamentoMapper.toPagamentoResponse(any(PagamentoModel.class))).thenReturn(responseExpected);
 
-        mockMvc.perform(get("/pagamentos/id/{id}", id))
+        mockMvc.perform(get("/pagamentos/{id}", id))
                 .andExpect(status().isOk());
     }
     @Test
@@ -109,7 +109,7 @@ public class PagamentoControllerTest {
 
         when(pagamentoService.getById(id)).thenThrow(new ResourceNotFoundException("Payment Not Found"));
 
-        mockMvc.perform(get("/pagamentos/id/{id}", id)
+        mockMvc.perform(get("/pagamentos/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Payment Not Found"));

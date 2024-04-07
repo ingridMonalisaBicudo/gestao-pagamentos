@@ -37,7 +37,7 @@ public class PagamentoController {
 
     }
 
-    @GetMapping("/pagamentos/id/{id}")
+    @GetMapping("/pagamentos/{id}")
     public ResponseEntity<Object> getById(@PathVariable (value="id") UUID id) {
         try{
             var pagamentoResponse = mapper.toPagamentoResponse(pagamentoService.getById(id));
@@ -52,7 +52,7 @@ public class PagamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.getAll());
     }
 
-    @GetMapping("/pagamentos/{status}")
+    @GetMapping("/pagamentos/status/{status}")
     public ResponseEntity<List<PagamentoResponse>> getByStatus(@PathVariable Status status){
         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.getByStatus(status));
     }
