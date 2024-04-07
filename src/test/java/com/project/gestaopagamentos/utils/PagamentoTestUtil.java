@@ -22,13 +22,9 @@ public class PagamentoTestUtil {
     private static final LocalDateTime DATA_FINAL = LocalDateTime.now();
     private static final BigDecimal VALOR_PAGAMENTO = new BigDecimal(200.0);
     private static final String DESCRICAO = "pagamento bancário";
-    private static final String CHAVE_PIX_EMAIL = "teste@gmail.com";
     private static final Status STATUS_PAGAMENTO_AGENDADO = Status.AGENDADO;
     private static final Status STATUS_PAGAMENTO_EFETUADO = Status.EFETUADO;
     private static final LocalDateTime DATA_INCLUSAO = LocalDateTime.now();
-    private static final UUID UUID_DESTINO = UUID.randomUUID();
-    private static final UUID UUID_RECORRENCIA = UUID.randomUUID();
-
 
     public static PagamentoRequest createPagamentoRequestAgendado(){
         var request = new PagamentoRequest();
